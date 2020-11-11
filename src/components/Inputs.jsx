@@ -1,12 +1,32 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
+import _ from 'lodash';
 
 function Inputs(props) {
+    const [value, setValue] = useState("");
+
+    const handleInputChange = useCallback(
+        (e) => {
+            const value = e.target.value;
+            setValue(value);
+            debounceHandler(value);
+        },
+        [debounceHandler]
+    );
+
+    const debounceHandler = useCallback(
+        _.debounce((value) => {
+            console.log(`Debounced Value = ${value}`);
+        }, 1000),
+        []
+    );
+
+
     return (
-        <div class="jumbotron">
+        <div className="jumbotron">
             {/* Programs */}
-            <div class="form-group">
-                <label for="exampleInputEmail1">Program</label>
-                <input class="form-control" list="browsers" name="browser"/>
+            <div className="form-group">
+                <label>Program</label>
+                <input onChange={handleInputChange} className="form-control" list="browsers" name="browser"/>
                 <datalist id="browsers">
                     <option value="Firefox" />
                     <option value="Chrome" />
@@ -16,9 +36,9 @@ function Inputs(props) {
             </div>
 
             {/* Year */}
-            <div class="form-group">
-                <label for="exampleInputEmail1">Year</label>
-                <input class="form-control" list="years" name="years"/>
+            <div className="form-group">
+                <label>Year</label>
+                <input className="form-control" list="years" name="years"/>
                 <datalist id="years">
                     <option>2019</option>
                     <option>2020</option>
@@ -27,23 +47,23 @@ function Inputs(props) {
             </div>
 
             {/* Specialisations */}
-            <div class="form-group">
-                <label class="control-label">Major</label>
-                <div class="form-group">
-                    <div class="input-group mb-3">
-                        <select class="form-control" id="exampleSelect1">
+            <div className="form-group">
+                <label className="control-label">Major</label>
+                <div className="form-group">
+                    <div className="input-group mb-3">
+                        <select className="form-control" id="exampleSelect1">
                             <option>None</option>
                             <option>2</option>
                         </select>
-                        <div class="input-group-append">
-                            <button class="btn btn-secondary">Add</button>
+                        <div className="input-group-append">
+                            <button className="btn btn-secondary">Add</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Go */}
-            <button type="submit" class="btn btn-primary">Go</button>
+            <button type="submit" className="btn btn-primary">Go</button>
 
         </div>
     )
