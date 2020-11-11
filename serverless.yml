@@ -1,0 +1,11 @@
+org: si2222
+app: app
+name: react-starter
+component: website
+
+inputs:
+  region: ap-southeast-2
+  src:
+    src: ./src
+    hook: npm run build
+    dist: ./dist
