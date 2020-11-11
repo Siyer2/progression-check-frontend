@@ -29,12 +29,44 @@ function getProgramList(query) {
     });
 }
 
+function getProgram(code, year) {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            var config = {
+                method: 'post',
+                url: 'http://localhost:3000/getProgram',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    code: code, 
+                    implementation_year: year
+                }
+            };
+
+            axios(config)
+                .then(function (response) {
+                    resolve(response.data);
+                })
+                .catch(function (error) {
+                    console.log("AXIOS ERROR GETTING PROGRAM", error);
+                    reject(error);
+                });
+        } catch (ex) {
+            console.log("EXCEPTION GETTING PROGRAM", ex);
+            reject(ex);
+        }
+    });
+}
+
 function Inputs(props) {
     const [query, setQuery] = useState('');
-    const [searchQuery, setSearchQuery] = useState({});
+    const [error, setError] = useState('unset');
     const [dataList, setDataList] = useState([]);
 
     const handleChange = ({ target: { value } }) => {
+        setError('unset');
         setQuery(value);
 
         const search = _.debounce(sendQuery, 300);
@@ -48,18 +80,44 @@ function Inputs(props) {
         setDataList(programs);
     };
 
+    async function programAdded() {
+        // See if it's a valid program
+        const code = query.split(':')[0];
+        const year = query.substring(query.length - 5, query.length - 1);
+        
+        var programFromDataList = _.find(dataList, function(program) {
+            return program.item.Item.code.S === code && program.item.Item.implementation_year.S === year;
+        });
+
+        if (!programFromDataList) {
+            programFromDataList = await getProgram(code, year);
+        }
+
+        if (!programFromDataList) {
+            setError('Program not found');
+        }
+        else {
+            setError('');
+        }
+    }
+
+    const programInputClass = `form-control ${error === 'unset' ? '' : error ? 'is-invalid' : 'is-valid'}`;
     return (
         <div className="jumbotron">
-            {/* {dataList && dataList.length && dataList.map((program, i) => {
-                return <div key={i + program.item.Item.code.S}> {program.item.Item.code.S}: {program.item.Item.title.S} ({program.item.Item.implementation_year.S})</div>
-            })} */}
             {/* Programs */}
             <div className="form-group">
                 <label>Program</label>
-                <input onChange={handleChange} className="form-control" list="programs" name="browser"/>
+
+                <div className="input-group mb-3">
+                    <input onChange={handleChange} className={programInputClass} list="programs" name="browser" />
+                    <div className="input-group-append">
+                        <button onClick={() => {programAdded()}} className="btn btn-secondary">Add</button>
+                    </div>
+                    {error && <div className="invalid-feedback">{error}</div>}
+                </div>                
                 <datalist id="programs">
                     {dataList && dataList.length && dataList.map((program, i) => {
-                        return <option key={i + program.item.Item.code.S}> {program.item.Item.code.S}: {program.item.Item.title.S} ({program.item.Item.implementation_year.S}) </option>
+                        return <option onClick={(e) => {handleClick(e)}} key={i + program.item.Item.code.S}> {program.item.Item.code.S}: {program.item.Item.title.S} ({program.item.Item.implementation_year.S}) </option>
                     })}
                 </datalist>
             </div>
@@ -81,7 +139,7 @@ function Inputs(props) {
             </div>
 
             {/* Go */}
-            <button type="submit" className="btn btn-primary">Go</button>
+            <button type="submit" disabled={error || error === 'unset'} className="btn btn-primary">Go</button>
 
         </div>
     )
