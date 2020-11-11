@@ -6,19 +6,24 @@ function Inputs(props) {
             {/* Programs */}
             <div class="form-group">
                 <label for="exampleInputEmail1">Program</label>
-                <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter program" />
+                <input class="form-control" list="browsers" name="browser"/>
+                <datalist id="browsers">
+                    <option value="Firefox" />
+                    <option value="Chrome" />
+                    <option value="Opera" />
+                    <option value="Safari" />
+                </datalist>
             </div>
 
             {/* Year */}
             <div class="form-group">
-                <label for="exampleSelect1">Year</label>
-                <select class="form-control" id="exampleSelect1">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
+                <label for="exampleInputEmail1">Year</label>
+                <input class="form-control" list="years" name="years"/>
+                <datalist id="years">
+                    <option>2019</option>
+                    <option>2020</option>
+                    <option>2021</option>
+                </datalist>
             </div>
 
             {/* Specialisations */}
@@ -27,11 +32,8 @@ function Inputs(props) {
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <select class="form-control" id="exampleSelect1">
-                            <option>1</option>
+                            <option>None</option>
                             <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
                         </select>
                         <div class="input-group-append">
                             <button class="btn btn-secondary">Add</button>
