@@ -60,10 +60,11 @@ function getProgram(code, year) {
     });
 }
 
-function Inputs(props) {
+function Inputs() {
     const [query, setQuery] = useState('');
     const [error, setError] = useState('unset');
     const [dataList, setDataList] = useState([]);
+    const [selectedProgram, setSelectedProgram] = useState('');
 
     const handleChange = ({ target: { value } }) => {
         setError('unset');
@@ -99,6 +100,39 @@ function Inputs(props) {
         else {
             setError('');
         }
+
+        setSelectedProgram(programFromDataList);
+        console.log(programFromDataList);
+    }
+
+    function SpecificSpecialisation(specialisationType, specialisationList) {
+        return (
+            <div className="form-group">
+                <label className="control-label">{specialisationType}</label>
+
+                <div className="input-group mb-3">
+                    <input className='form-control' list="specs" name="specs" />
+                    <div className="input-group-append">
+                        <button onClick={() => { programAdded() }} className="btn btn-secondary">Add</button>
+                    </div>
+                    {error && <div className="invalid-feedback">{error}</div>}
+                </div>
+                <datalist id="specs">
+                    {specialisationList && specialisationList.length && specialisationList.map((spec, i) => {
+                        console.log("spec", spec);
+                        return <option onClick={(e) => { handleClick(e) }} key={i + spec.S}> {spec.S} </option>
+                    })}
+                </datalist>
+            </div>
+        )
+    }
+
+    function Specialialisations() {
+        return (
+            <>
+                {selectedProgram && SpecificSpecialisation('Majors', selectedProgram.item.Item.majors.L)}
+            </>
+        )
     }
 
     const programInputClass = `form-control ${error === 'unset' ? '' : error ? 'is-invalid' : 'is-valid'}`;
@@ -123,20 +157,7 @@ function Inputs(props) {
             </div>
 
             {/* Specialisations */}
-            <div className="form-group">
-                <label className="control-label">Major</label>
-                <div className="form-group">
-                    <div className="input-group mb-3">
-                        <select className="form-control" id="exampleSelect1">
-                            <option>None</option>
-                            <option>2</option>
-                        </select>
-                        <div className="input-group-append">
-                            <button className="btn btn-secondary">Add</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Specialialisations />
 
             {/* Go */}
             <button type="submit" disabled={error || error === 'unset'} className="btn btn-primary">Go</button>
