@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="App">
       <Home />
-      <footer>
+      <footer style={{textAlign: 'right'}}>
         <p>By <a href="https://github.com/Siyer2">Syam</a></p>
       </footer>
     </div>

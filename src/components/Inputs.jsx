@@ -136,6 +136,12 @@ function Inputs() {
         });
     }
 
+    function goClicked() {
+        console.log("selectedProgram", selectedProgram);
+        console.log("selectedSpec", selectedSpecialisations);
+        
+    }
+
     function SpecificSpecialisation(specialisationType, specialisationList) {
         const specialisationInputClass = `form-control ${specialisationError[specialisationType] === '' ? 'is-valid' : specialisationError[specialisationType] ? 'is-invalid' : ''}`;
         return (
@@ -195,7 +201,7 @@ function Inputs() {
             <Specialialisations />
 
             {/* Go */}
-            <button type="submit" disabled={isGoDisabled} className="btn btn-primary">Go</button>
+            <button onClick={() => {goClicked()}} type="submit" disabled={isGoDisabled} className="btn btn-primary">Go</button>
 
         </div>
     )
