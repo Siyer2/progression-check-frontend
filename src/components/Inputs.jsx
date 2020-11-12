@@ -62,17 +62,26 @@ function getProgram(code, year) {
 
 function Inputs() {
     const [query, setQuery] = useState('');
-    const [error, setError] = useState('unset');
+    const [programError, setProgramError] = useState('unset');
     const [dataList, setDataList] = useState([]);
     const [selectedProgram, setSelectedProgram] = useState('');
-
+    const [selectedSpecialisations, setSelectedSpecialisations] = useState('');
+    const [specialisationError, setSpecialisationError] = useState({});
+    
     const handleChange = ({ target: { value } }) => {
-        setError('unset');
+        console.log("VALUE", value);
+        setProgramError('unset');
         setQuery(value);
 
         const search = _.debounce(sendQuery, 300);
 
         search(value);
+    };
+
+    const handleSpecialisationChange = ({ target: { value, name } }) => {
+        console.log("VALUE", value);
+        console.log("NAME", name);
+        
     };
 
     const sendQuery = async value => {
@@ -95,47 +104,83 @@ function Inputs() {
         }
 
         if (!programFromDataList) {
-            setError('Program not found');
+            setProgramError('Program not found');
         }
         else {
-            setError('');
+            setProgramError('');
         }
 
         setSelectedProgram(programFromDataList);
         console.log(programFromDataList);
     }
 
+    async function specialisationAdded() {
+        // Check if it's a valid program
+        Object.keys(selectedSpecialisations).map((spec) => {
+            const isValid = _.find(selectedProgram.item.Item[spec.toLowerCase()].L, function(options) {
+                return options.S === selectedSpecialisations[spec];
+            });
+
+            if (!isValid) {
+                console.log(`Couldn't find ${spec} called ${selectedSpecialisations[spec]} for this program`);
+                setSpecialisationError(prevState => {
+                    return { ...prevState, [spec]: `Couldn't find ${spec} called ${selectedSpecialisations[spec]}` };
+                });
+            }
+        });
+    }
+
     function SpecificSpecialisation(specialisationType, specialisationList) {
         return (
             <div className="form-group">
-                <label className="control-label">{specialisationType}</label>
+                <label>{specialisationType}</label>
 
                 <div className="input-group mb-3">
-                    <input className='form-control' list="specs" name="specs" />
+                    <input onChange={handleSpecialisationChange} className={'form-control'} list={specialisationType} name={specialisationType} />
                     <div className="input-group-append">
-                        <button onClick={() => { programAdded() }} className="btn btn-secondary">Add</button>
+                        <button onClick={() => {specialisationAdded()}} className="btn btn-secondary">Add</button>
                     </div>
-                    {error && <div className="invalid-feedback">{error}</div>}
-                </div>
-                <datalist id="specs">
+                    {programError && <div className="invalid-feedback">{programError}</div>}
+                </div>                
+                <datalist id={specialisationType}>
                     {specialisationList && specialisationList.length && specialisationList.map((spec, i) => {
-                        console.log("spec", spec);
                         return <option onClick={(e) => { handleClick(e) }} key={i + spec.S}> {spec.S} </option>
                     })}
                 </datalist>
             </div>
+
+
+            // <div className="form-group">
+            //     <label className="control-label">{specialisationType}</label>
+
+            //     <div className="input-group mb-3">
+            //         <input onChange={(event) => {handleSpecialisationChange(event, specialisationType)}} className='form-control' list={specialisationType} name={specialisationType} />
+            //         <div className="input-group-append">
+            //             <button onClick={() => { specialisationAdded() }} className="btn btn-secondary">Add</button>
+            //         </div>
+            //         {specialisationError[specialisationType] && <div className="invalid-feedback">{specialisationError[specialisationType]}</div>}
+            //     </div>
+            //     <datalist id={specialisationType}>
+            //         {specialisationList && specialisationList.length && specialisationList.map((spec, i) => {
+            //             return <option onClick={(e) => { handleClick(e) }} key={i + spec.S}> {spec.S} </option>
+            //         })}
+            //     </datalist>
+            // </div>
         )
     }
 
     function Specialialisations() {
         return (
             <>
-                {selectedProgram && SpecificSpecialisation('Majors', selectedProgram.item.Item.majors.L)}
+                {selectedProgram && selectedProgram.item.Item.majors && SpecificSpecialisation('Majors', selectedProgram.item.Item.majors.L)}
+                {selectedProgram && selectedProgram.item.Item.minors && SpecificSpecialisation('Minors', selectedProgram.item.Item.minors.L)}
+                {selectedProgram && selectedProgram.item.Item.honours && SpecificSpecialisation('Honours', selectedProgram.item.Item.honours.L)}
+                {selectedProgram && selectedProgram.item.Item.specialisations && SpecificSpecialisation('Specialisations', selectedProgram.item.Item.specialisations.L)}
             </>
         )
     }
 
-    const programInputClass = `form-control ${error === 'unset' ? '' : error ? 'is-invalid' : 'is-valid'}`;
+    const programInputClass = `form-control ${programError === 'unset' ? '' : programError ? 'is-invalid' : 'is-valid'}`;
     return (
         <div className="jumbotron">
             {/* Programs */}
@@ -147,7 +192,7 @@ function Inputs() {
                     <div className="input-group-append">
                         <button onClick={() => {programAdded()}} className="btn btn-secondary">Add</button>
                     </div>
-                    {error && <div className="invalid-feedback">{error}</div>}
+                    {programError && <div className="invalid-feedback">{programError}</div>}
                 </div>                
                 <datalist id="programs">
                     {dataList && dataList.length && dataList.map((program, i) => {
@@ -160,7 +205,7 @@ function Inputs() {
             <Specialialisations />
 
             {/* Go */}
-            <button type="submit" disabled={error || error === 'unset'} className="btn btn-primary">Go</button>
+            <button type="submit" disabled={programError || programError === 'unset'} className="btn btn-primary">Go</button>
 
         </div>
     )
