@@ -78,11 +78,11 @@ function Inputs() {
     };
 
     const handleSpecialisationChange = ({ target: { value, name } }) => {
-        console.log("VALUE", value);
-        console.log("NAME", name);
-
         setSelectedSpecialisations(prevState => {
             return { ...prevState, [name]: value };
+        });
+        setSpecialisationError(prevState => {
+            return { ...prevState, [name]: '' };
         });
     };
 
@@ -124,25 +124,30 @@ function Inputs() {
             });
 
             if (!isValid) {
-                console.log(`Couldn't find ${spec} called ${selectedSpecialisations[spec]} for this program`);
                 setSpecialisationError(prevState => {
                     return { ...prevState, [spec]: `Couldn't find ${spec} called ${selectedSpecialisations[spec]}` };
+                });
+            }
+            else {
+                setSpecialisationError(prevState => {
+                    return { ...prevState, [spec]: '' };
                 });
             }
         });
     }
 
     function SpecificSpecialisation(specialisationType, specialisationList) {
+        const specialisationInputClass = `form-control ${specialisationError[specialisationType] === '' ? 'is-valid' : specialisationError[specialisationType] ? 'is-invalid' : ''}`;
         return (
             <div className="form-group">
                 <label>{specialisationType}</label>
 
                 <div className="input-group mb-3">
-                    <input onChange={handleSpecialisationChange} className={'form-control'} list={specialisationType} name={specialisationType} value={selectedSpecialisations[specialisationType]}/>
+                    <input onChange={handleSpecialisationChange} className={specialisationInputClass} list={specialisationType} name={specialisationType} value={selectedSpecialisations[specialisationType]}/>
                     <div className="input-group-append">
                         <button onClick={() => {specialisationAdded()}} className="btn btn-secondary">Add</button>
                     </div>
-                    {programError && <div className="invalid-feedback">{programError}</div>}
+                    {specialisationError[specialisationType] && <div className="invalid-feedback">{specialisationError[specialisationType]}</div>}
                 </div>                
                 <datalist id={specialisationType}>
                     {specialisationList && specialisationList.length && specialisationList.map((spec, i) => {
@@ -150,24 +155,6 @@ function Inputs() {
                     })}
                 </datalist>
             </div>
-
-
-            // <div className="form-group">
-            //     <label className="control-label">{specialisationType}</label>
-
-            //     <div className="input-group mb-3">
-            //         <input onChange={(event) => {handleSpecialisationChange(event, specialisationType)}} className='form-control' list={specialisationType} name={specialisationType} />
-            //         <div className="input-group-append">
-            //             <button onClick={() => { specialisationAdded() }} className="btn btn-secondary">Add</button>
-            //         </div>
-            //         {specialisationError[specialisationType] && <div className="invalid-feedback">{specialisationError[specialisationType]}</div>}
-            //     </div>
-            //     <datalist id={specialisationType}>
-            //         {specialisationList && specialisationList.length && specialisationList.map((spec, i) => {
-            //             return <option onClick={(e) => { handleClick(e) }} key={i + spec.S}> {spec.S} </option>
-            //         })}
-            //     </datalist>
-            // </div>
         )
     }
 
@@ -182,6 +169,7 @@ function Inputs() {
         )
     }
 
+    const isGoDisabled = (programError || programError === 'unset') || (specialisationError['Majors'] || specialisationError['Minors'] || specialisationError['Honours'] || specialisationError['Specialisations']);
     const programInputClass = `form-control ${programError === 'unset' ? '' : programError ? 'is-invalid' : 'is-valid'}`;
     return (
         <div className="jumbotron">
@@ -207,7 +195,7 @@ function Inputs() {
             <Specialialisations />
 
             {/* Go */}
-            <button type="submit" disabled={programError || programError === 'unset'} className="btn btn-primary">Go</button>
+            <button type="submit" disabled={isGoDisabled} className="btn btn-primary">Go</button>
 
         </div>
     )
