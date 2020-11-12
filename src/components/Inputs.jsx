@@ -65,11 +65,10 @@ function Inputs() {
     const [programError, setProgramError] = useState('unset');
     const [dataList, setDataList] = useState([]);
     const [selectedProgram, setSelectedProgram] = useState('');
-    const [selectedSpecialisations, setSelectedSpecialisations] = useState('');
+    const [selectedSpecialisations, setSelectedSpecialisations] = useState({});
     const [specialisationError, setSpecialisationError] = useState({});
     
     const handleChange = ({ target: { value } }) => {
-        console.log("VALUE", value);
         setProgramError('unset');
         setQuery(value);
 
@@ -81,7 +80,10 @@ function Inputs() {
     const handleSpecialisationChange = ({ target: { value, name } }) => {
         console.log("VALUE", value);
         console.log("NAME", name);
-        
+
+        setSelectedSpecialisations(prevState => {
+            return { ...prevState, [name]: value };
+        });
     };
 
     const sendQuery = async value => {
@@ -136,7 +138,7 @@ function Inputs() {
                 <label>{specialisationType}</label>
 
                 <div className="input-group mb-3">
-                    <input onChange={handleSpecialisationChange} className={'form-control'} list={specialisationType} name={specialisationType} />
+                    <input onChange={handleSpecialisationChange} className={'form-control'} list={specialisationType} name={specialisationType} value={selectedSpecialisations[specialisationType]}/>
                     <div className="input-group-append">
                         <button onClick={() => {specialisationAdded()}} className="btn btn-secondary">Add</button>
                     </div>
