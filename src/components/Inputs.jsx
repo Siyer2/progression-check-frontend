@@ -1,7 +1,8 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash';
 import axios from 'axios';
 import { Form } from 'react-bootstrap';
+import AsyncSelect from 'react-select/async'
 
 function getProgramList(query) {
     return new Promise(async (resolve, reject) => {
@@ -70,6 +71,7 @@ function Inputs() {
     const [specialisationError, setSpecialisationError] = useState({});
     
     const handleChange = ({ target: { value } }) => {
+        console.log(value);
         setProgramError('unset');
         setQuery(value);
 
@@ -174,6 +176,20 @@ function Inputs() {
         )
     }
 
+    const promiseOptions = inputValue => {
+        return new Promise(async resolve => {
+            const programs = await getProgramList(inputValue);
+            const formattedPrograms = programs.map((program) => {
+                return {
+                    value: program.item.Item.code.S + '_' + program.item.Item.implementation_year.S, 
+                    label: `${program.item.Item.code.S}: ${program.item.Item.title.S} (${program.item.Item.implementation_year.S})`
+                }
+            });
+            console.log("fp", formattedPrograms);
+            resolve(formattedPrograms);
+        });
+    }
+
     const isGoDisabled = (programError || programError === 'unset') || (specialisationError['Majors'] || specialisationError['Minors'] || specialisationError['Honours'] || specialisationError['Specialisations']);
     const programInputClass = `form-control ${programError === 'unset' ? '' : programError ? 'is-invalid' : 'is-valid'}`;
     return (
@@ -181,7 +197,10 @@ function Inputs() {
             {/* Programs */}
             <div className="form-group">
                 <label>Program</label>
+                <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} placeholder={'Search for a program...'}/>
+            </div>
 
+            <div className="form-group">
                 <div className="input-group mb-3">
                     <input onChange={handleChange} className={programInputClass} list="programs" name="browser" />
                     <div className="input-group-append">
