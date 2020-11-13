@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { Form, Col, Button } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
 
-import { getProgram, getProgramList } from '../models/apiCalls';
+import { getProgram, getProgramList, getRequirements } from '../models/apiCalls';
 
 function Inputs() {
     const [programInput, setProgramInput] = useState('');
@@ -43,13 +43,11 @@ function Inputs() {
         }
 
         setSelectedProgram(programFromDataList);
-        console.log(programFromDataList);
     }
 
-    function goClicked() {
-        console.log("selectedProgram", selectedProgram);
-        console.log("selectedSpec", selectedSpecialisations);
-        
+    async function goClicked() {
+        const requirements = await getRequirements(selectedProgram.item.Item.code.S, selectedProgram.item.Item.implementation_year.S, selectedSpecialisations);
+        console.log(requirements);
     }
 
     function SpecificSpecialisation(specialisationType, specialisationList) {

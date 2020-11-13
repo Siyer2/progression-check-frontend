@@ -56,5 +56,35 @@ module.exports = {
                 reject(ex);
             }
         });
+    }, 
+    getRequirements: function(code, implementation_year, specialisations) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                var postData = {
+                    code, implementation_year, specialisations
+                }
+
+                var config = {
+                    method: 'post',
+                    url: 'http://localhost:3000/getRequirements',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: postData
+                };
+
+                axios(config)
+                    .then(function (response) {
+                        resolve(response.data);
+                    })
+                    .catch(function (error) {
+                        console.log("AXIOS ERROR GETTING REQUIREMENTS", error);
+                        reject(error);
+                    });
+            } catch (ex) {
+                console.log("EXCEPTION GETTING REQUIREMENTS", ex);
+                reject(ex);
+            }
+        });
     }
 };
