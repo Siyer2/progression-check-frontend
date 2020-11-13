@@ -10,7 +10,7 @@ function App() {
     <div className="App">
       <Home />
       <footer style={{textAlign: 'right'}}>
-        <p>By <a href="https://github.com/Siyer2">Syam</a></p>
+        <p>By <a href="https://github.com/Siyer2">Syam</a>&nbsp;&nbsp;</p>
       </footer>
     </div>
   );

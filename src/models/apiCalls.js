@@ -1,12 +1,14 @@
 const axios = require('axios');
 
+const domain = process.env.REACT_APP_DEPLOYMENT === 'production' ? '' : 'http://localhost:3000';
+
 module.exports = {
     getProgramList: function (query) {
         return new Promise(async (resolve, reject) => {
             try {
                 var config = {
                     method: 'post',
-                    url: 'http://localhost:3000/autocompletePrograms',
+                    url: `${domain}/autocompletePrograms`,
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -33,7 +35,7 @@ module.exports = {
 
                 var config = {
                     method: 'post',
-                    url: 'http://localhost:3000/getProgram',
+                    url: `${domain}/getProgram`,
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -66,7 +68,7 @@ module.exports = {
 
                 var config = {
                     method: 'post',
-                    url: 'http://localhost:3000/getRequirements',
+                    url: `${domain}/getRequirements`,
                     headers: {
                         'Content-Type': 'application/json'
                     },
