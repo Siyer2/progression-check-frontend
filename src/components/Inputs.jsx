@@ -1,66 +1,9 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
-import axios from 'axios';
 import { Form, Col, Button } from 'react-bootstrap';
-import AsyncSelect from 'react-select/async'
+import AsyncSelect from 'react-select/async';
 
-function getProgramList(query) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            var config = {
-                method: 'post',
-                url: 'http://localhost:3000/autocompletePrograms',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: { query }
-            };
-
-            axios(config)
-                .then(function (response) {
-                    resolve(response.data);
-                })
-                .catch(function (error) {
-                    console.log("AXIOS ERROR GETTING PROGRAM LIST", error);
-                    reject(error);
-                });
-        } catch (ex) {
-            console.log("EXCEPTION GETTING PROGRAM LIST", ex);
-            reject(ex);
-        }
-    });
-}
-
-function getProgram(code, year) {
-    return new Promise(async (resolve, reject) => {
-        try {
-
-            var config = {
-                method: 'post',
-                url: 'http://localhost:3000/getProgram',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: {
-                    code: code, 
-                    implementation_year: year
-                }
-            };
-
-            axios(config)
-                .then(function (response) {
-                    resolve(response.data);
-                })
-                .catch(function (error) {
-                    console.log("AXIOS ERROR GETTING PROGRAM", error);
-                    reject(error);
-                });
-        } catch (ex) {
-            console.log("EXCEPTION GETTING PROGRAM", ex);
-            reject(ex);
-        }
-    });
-}
+import { getProgram, getProgramList } from '../models/apiCalls';
 
 function Inputs() {
     const [programInput, setProgramInput] = useState('');
