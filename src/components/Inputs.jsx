@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import _ from 'lodash';
 import axios from 'axios';
+import { Form } from 'react-bootstrap';
 
 function getProgramList(query) {
     return new Promise(async (resolve, reject) => {
@@ -96,6 +97,7 @@ function Inputs() {
         // See if it's a valid program
         const code = query.split(':')[0];
         const year = query.substring(query.length - 5, query.length - 1);
+        console.log("datalist", code, year);
         
         var programFromDataList = _.find(dataList, function(program) {
             return program.item.Item.code.S === code && program.item.Item.implementation_year.S === year;
@@ -146,25 +148,23 @@ function Inputs() {
         const specialisationInputClass = `form-control ${specialisationError[specialisationType] === '' ? 'is-valid' : specialisationError[specialisationType] ? 'is-invalid' : ''}`;
         return (
             <div className="form-group">
-                <label>{specialisationType}</label>
-
-                <div className="input-group mb-3">
-                    <input onChange={handleSpecialisationChange} className={specialisationInputClass} list={specialisationType} name={specialisationType} value={selectedSpecialisations[specialisationType]}/>
-                    <div className="input-group-append">
-                        <button onClick={() => {specialisationAdded()}} className="btn btn-secondary">Add</button>
-                    </div>
-                    {specialisationError[specialisationType] && <div className="invalid-feedback">{specialisationError[specialisationType]}</div>}
-                </div>                
-                <datalist id={specialisationType}>
-                    {specialisationList && specialisationList.length && specialisationList.map((spec, i) => {
-                        return <option onClick={(e) => { handleClick(e) }} key={i + spec.S}> {spec.S} </option>
-                    })}
-                </datalist>
+                <Form>
+                    <Form.Group controlId="exampleForm.SelectCustom">
+                    <Form.Label>{specialisationType}</Form.Label>
+                        <Form.Control as="select" custom onChange={handleSpecialisationChange} value={selectedSpecialisations[specialisationType]} name={specialisationType}>
+                            <option> </option>
+                            {specialisationList && specialisationList.length && specialisationList.map((spec, i) => {
+                                return <option onClick={(e) => { handleClick(e) }} key={i + spec.S}> {spec.S} </option>
+                            })}
+                        </Form.Control>
+                    </Form.Group>
+                </Form>
             </div>
         )
     }
 
     function Specialialisations() {
+        console.log(selectedProgram);
         return (
             <>
                 {selectedProgram && selectedProgram.item.Item.majors && SpecificSpecialisation('Majors', selectedProgram.item.Item.majors.L)}
