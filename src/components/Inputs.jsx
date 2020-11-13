@@ -145,7 +145,6 @@ function Inputs() {
     }
 
     function SpecificSpecialisation(specialisationType, specialisationList) {
-        const specialisationInputClass = `form-control ${specialisationError[specialisationType] === '' ? 'is-valid' : specialisationError[specialisationType] ? 'is-invalid' : ''}`;
         return (
             <div className="form-group">
                 <Form>
