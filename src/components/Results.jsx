@@ -14,7 +14,7 @@ function Results(props) {
                 <div className="spinner-border" role="status">
                     <span className="sr-only">Loading...</span>
                 </div>
-                : `Viewing results for ${props.requirements.requirements.code}: ${props.requirements.requirements.title}`
+                    : `Viewing results for ${props.requirements.requirements.code}: ${props.requirements.requirements.title} (${props.requirements.requirements.implementation_year})${props.requirements.requirements.specialisations.length ? ` with specialisations: ${props.requirements.requirements.specialisations.join(', ')}` : ''}`
             }
         </>
         
