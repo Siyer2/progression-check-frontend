@@ -1,8 +1,7 @@
 import React from 'react';
 
-import NavBar from '../components/NavBar';
-
-function Results() {
+function Results(props) {
+    console.log("Results", props);
     return (
         <>
             <div>You are viewing results.</div>

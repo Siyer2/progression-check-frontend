@@ -121,7 +121,7 @@ function Inputs() {
             <Specialialisations />
 
             {/* Go */}
-            <Link to="/results">
+            <Link to={{pathname: "/results", requirements: selectedProgram}}>
                 <button onClick={() => { goClicked() }} type="submit" disabled={isGoDisabled} className="btn btn-primary">
                     Go
                 </button>
