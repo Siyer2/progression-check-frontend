@@ -8,10 +8,9 @@ function requestRequirements() {
 }
 
 function finishRequirements(data) {
-    console.log(data);
     return {
         type: 'FINISH_REQUIREMENTS',
-        user: data
+        requirements: data
     }
 }
 
@@ -35,7 +34,7 @@ export function getProgramRequirements(code, implementation_year, specialisation
             dispatch(requestRequirements());
 
             const requirements = await getRequirements(code, implementation_year, specialisations);
-            dispatch(finishRequirements(requirements.data));
+            dispatch(finishRequirements(requirements));
         } catch (error) {
             console.log("ERROR GETTING PROGRAM REQUIREMENTS", error);
             dispatch(failedRequirements(error.toString()));

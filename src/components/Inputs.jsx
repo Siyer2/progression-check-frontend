@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { Form, Col, Button } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
+import { connect } from 'react-redux';
 
 import { getProgram, getProgramList, getRequirements } from '../models/apiCalls';
+import { getProgramRequirements } from '../actions/requirementsAction';
 
-function Inputs() {
+function Inputs(props) {
     const [programInput, setProgramInput] = useState('');
     const [programError, setProgramError] = useState('unset');
     const [dataList, setDataList] = useState([]);
@@ -47,8 +49,11 @@ function Inputs() {
     }
 
     async function goClicked() {
-        const requirements = await getRequirements(selectedProgram.item.Item.code.S, selectedProgram.item.Item.implementation_year.S, selectedSpecialisations);
-        console.log(requirements);
+        // const requirements = await getRequirements(selectedProgram.item.Item.code.S, selectedProgram.item.Item.implementation_year.S, selectedSpecialisations);
+        // console.log(requirements);
+
+        props.getProgramRequirements(selectedProgram.item.Item.code.S, selectedProgram.item.Item.implementation_year.S, selectedSpecialisations);
+
     }
 
     function SpecificSpecialisation(specialisationType, specialisationList) {
@@ -131,4 +136,12 @@ function Inputs() {
     )
 }
 
-export default Inputs;
+const mapDispatchToProps = dispatch => {
+    return {
+        getProgramRequirements: (code, implementation_year, specialisations) => {
+            dispatch(getProgramRequirements(code, implementation_year, specialisations))
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Inputs);
