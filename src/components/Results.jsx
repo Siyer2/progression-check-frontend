@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import Outputs from './Outputs';
+
 function Results(props) {
     if (!props.requirements.isGettingRequirements) {
         console.log("FINAL", props.requirements.requirements);
@@ -14,7 +16,7 @@ function Results(props) {
                 <div className="spinner-border" role="status">
                     <span className="sr-only">Loading...</span>
                 </div>
-                    : `Viewing results for ${props.requirements.requirements.code}: ${props.requirements.requirements.title} (${props.requirements.requirements.implementation_year})${props.requirements.requirements.specialisations.length ? ` with specialisations: ${props.requirements.requirements.specialisations.join(', ')}` : ''}`
+                    : <Outputs requirements={props.requirements.requirements}/>
             }
         </>
         
