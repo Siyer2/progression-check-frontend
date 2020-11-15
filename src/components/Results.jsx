@@ -1,12 +1,36 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 function Results(props) {
-    console.log("Results", props);
+    if (!props.requirements.isGettingRequirements) {
+        console.log("FINAL", props.requirements.requirements);
+    }
+
     return (
+        !props.requirements.isGettingRequirements && !props.requirements.requirements.code ?  <NoSetProgram /> 
+        :
         <>
-            <div>You are viewing results.</div>
+            {props.requirements.isGettingRequirements ? 
+                <div className="spinner-border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+                : `Viewing results for ${props.requirements.requirements.code}: ${props.requirements.requirements.title}`
+            }
         </>
+        
     )
 }
 
-export default Results;
+function NoSetProgram() {
+    return (
+        <div>No program set. Please select a program to view results.</div>
+    )
+}
+
+const mapStateToProps = state => {
+    return {
+        requirements: state.requirements
+    };
+};
+
+export default connect(mapStateToProps, null)(Results);

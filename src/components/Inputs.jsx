@@ -5,7 +5,7 @@ import { Form, Col, Button } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
 import { connect } from 'react-redux';
 
-import { getProgram, getProgramList, getRequirements } from '../models/apiCalls';
+import { getProgram, getProgramList } from '../models/apiCalls';
 import { getProgramRequirements } from '../actions/requirementsAction';
 
 function Inputs(props) {
@@ -49,9 +49,6 @@ function Inputs(props) {
     }
 
     async function goClicked() {
-        // const requirements = await getRequirements(selectedProgram.item.Item.code.S, selectedProgram.item.Item.implementation_year.S, selectedSpecialisations);
-        // console.log(requirements);
-
         props.getProgramRequirements(selectedProgram.item.Item.code.S, selectedProgram.item.Item.implementation_year.S, selectedSpecialisations);
 
     }
