@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { Form, Col, Button } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
@@ -120,7 +121,11 @@ function Inputs() {
             <Specialialisations />
 
             {/* Go */}
-            <button onClick={() => {goClicked()}} type="submit" disabled={isGoDisabled} className="btn btn-primary">Go</button>
+            <Link to="/results">
+                <button onClick={() => { goClicked() }} type="submit" disabled={isGoDisabled} className="btn btn-primary">
+                    Go
+                </button>
+            </Link>
 
         </div>
     )

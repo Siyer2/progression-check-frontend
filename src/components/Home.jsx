@@ -6,7 +6,6 @@ import Inputs from './Inputs';
 function Home(props) {
     return (
         <>
-            <NavBar />
             <Inputs />
         </>
     )
