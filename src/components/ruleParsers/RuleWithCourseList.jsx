@@ -10,6 +10,7 @@ import {
 import { stripHtml } from '../../helperFunctions';
 
 function RuleWithCourseList(props) {
+    console.log("props", props);
     const coreCourseOutputs = props.requirements.map((coreRequirement, i) => {
         return (
             <div key={i} >
@@ -38,7 +39,7 @@ function RuleWithCourseList(props) {
                     </Card.Title>
                 </OverlayTrigger>
                 <ListGroup variant="flush">
-                    {coreRequirement.M.courses.L.map((course, i) => {
+                    {coreRequirement.M.courses && coreRequirement.M.courses.L.map((course, i) => {
                         return (<ListGroup.Item key={i + course.M.code.S}>{course.M.code.S} ({course.M.credit_points.S} UOC)</ListGroup.Item>)
                     })}
                 </ListGroup>
