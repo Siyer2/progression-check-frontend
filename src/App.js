@@ -12,7 +12,7 @@ function App() {
       <NavBar />
       <Main />
       <footer style={{textAlign: 'right'}}>
-        <p>By <a href="https://github.com/Siyer2">Syam</a>&nbsp;&nbsp;</p>
+        <p>By <a href="https://github.com/Siyer2" target="_blank">Syam</a>&nbsp;&nbsp;</p>
       </footer>
     </div>
   );

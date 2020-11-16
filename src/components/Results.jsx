@@ -3,11 +3,21 @@ import { connect } from 'react-redux';
 
 import Outputs from './Outputs';
 
+import fakeRequirements from '../fakeRequirements.json';
+
 function Results(props) {
     if (!props.requirements.isGettingRequirements) {
         console.log("FINAL", props.requirements.requirements);
     }
 
+    // TESTING 
+    return (
+        <>
+            <Outputs requirements={fakeRequirements} />
+        </>
+    )
+
+    // ACTUAL
     return (
         // <Outputs />
         !props.requirements.isGettingRequirements && !props.requirements.requirements.code ?  <NoSetProgram /> 
@@ -18,7 +28,9 @@ function Results(props) {
                     <span className="sr-only">Loading...</span>
                 </div>
                     : 
-                    <Outputs requirements={props.requirements.requirements}/>
+                    <>
+                        <Outputs requirements={props.requirements.requirements}/>
+                    </>
             }
         </>
         

@@ -6,8 +6,7 @@ import {
 } from 'react-bootstrap';
 
 import Rules from './ruleParsers/Rules';
-
-import fakeRequirements from '../fakeRequirements.json';
+import CourseSelector from './CourseSelector';
 
 function DisplayRules(props) {
     return (
@@ -25,8 +24,6 @@ function DisplayRules(props) {
 }
 
 function Outputs(props) {
-    // TODO: CHANGE fakeRequirements to props.requirements
-    console.log("props", props);
     return (
         <>
             <Jumbotron fluid>
@@ -37,7 +34,10 @@ function Outputs(props) {
                 <h5>
                     You have at least {props.requirements.minimumUOC} UOC to go
                 </h5>
+                <CourseSelector />
             </Jumbotron>
+
+
             <DisplayRules requirements={props.requirements}/>
         </>
     )
