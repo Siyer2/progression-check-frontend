@@ -137,13 +137,23 @@ function RenderRule(props) {
     }
     else {
         console.log('rule', rule);
+        const url = rule.M.url && !rule.M.url.NULL ? `https://www.handbook.unsw.edu.au${rule.M.url.S}` : null;
+
         return (
+            url ?
+            <div key={props.ruleName + props.index}>
+                <Card.Title>
+                    <a href={url} target="_blank">
+                        {stripHtml(rule.M.description.S)}
+                    </a>
+                </Card.Title>
+            </div>
+            :
             <div key={props.ruleName + props.index}>
                 <Card.Title>
                     {stripHtml(rule.M.description.S)}
                 </Card.Title>
-                {rule.M.url && !rule.M.url.NULL && <Card.Body>{rule.M.url.S}</Card.Body>}
-            </div >
+            </div>
         )
     }
 }
