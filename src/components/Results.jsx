@@ -5,22 +5,22 @@ import Outputs from './Outputs';
 
 function Results(props) {
     if (!props.requirements.isGettingRequirements) {
-        // console.log("FINAL", props.requirements.requirements);
+        console.log("FINAL", props.requirements.requirements);
     }
 
     return (
-        <Outputs />
-        // !props.requirements.isGettingRequirements && !props.requirements.requirements.code ?  <NoSetProgram /> 
-        // :
-        // <>
-        //     {props.requirements.isGettingRequirements ? 
-        //         <div className="spinner-border" role="status">
-        //             <span className="sr-only">Loading...</span>
-        //         </div>
-        //             : 
-        //             <Outputs requirements={props.requirements.requirements}/>
-        //     }
-        // </>
+        // <Outputs />
+        !props.requirements.isGettingRequirements && !props.requirements.requirements.code ?  <NoSetProgram /> 
+        :
+        <>
+            {props.requirements.isGettingRequirements ? 
+                <div className="spinner-border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+                    : 
+                    <Outputs requirements={props.requirements.requirements}/>
+            }
+        </>
         
     )
 }

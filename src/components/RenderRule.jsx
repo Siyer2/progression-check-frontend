@@ -20,7 +20,7 @@ function RenderRule(props) {
 
     const rule = props.rule;
     // Course list and credit points exist
-    if ((rule.M.courses && rule.M.courses.L.length <= courseShowLimit) && (rule.M.credit_points && rule.M.credit_points.S) || (rule.M.credit_points_max && rule.M.credit_points_max.S)) {
+    if ((rule.M.courses && rule.M.courses.L.length <= courseShowLimit) && ((rule.M.credit_points && rule.M.credit_points.S) || (rule.M.credit_points_max && rule.M.credit_points_max.S))) {
         return (
             <div key={props.ruleName + props.index}>
                 <OverlayTrigger
@@ -34,22 +34,25 @@ function RenderRule(props) {
                 >
                     <Card.Title>
                         {
-                            rule.M.credit_points && rule.M.credit_points_max ?
-                                `Finish between ${rule.M.credit_points.S} and ${rule.M.credit_points_max.S} UOC of the following courses:`
+                            rule.M.credit_points && rule.M.credit_points_max && rule.M.credit_points.S === rule.M.credit_points_max.S ?
+                                `Finish ${rule.M.credit_points.S} UOC of the following courses:`
                                 :
-                                rule.M.credit_points ?
-                                    `Finish ${rule.M.credit_points.S} UOC of the following courses:`
+                                rule.M.credit_points && rule.M.credit_points_max ?
+                                    `Finish between ${rule.M.credit_points.S} and ${rule.M.credit_points_max.S} UOC of the following courses:`
                                     :
-                                    rule.M.credit_points_max ?
-                                        `Finish up to ${rule.M.credit_points_max.S} UOC of the following courses:`
+                                    rule.M.credit_points ?
+                                        `Finish ${rule.M.credit_points.S} UOC of the following courses:`
                                         :
-                                        stripHtml(rule.M.description.S)
+                                        rule.M.credit_points_max ?
+                                            `Finish up to ${rule.M.credit_points_max.S} UOC of the following courses:`
+                                            :
+                                            stripHtml(rule.M.description.S)
                         }
                     </Card.Title>
                 </OverlayTrigger>
                 <ListGroup variant="flush">
                     {rule.M.courses && rule.M.courses.L.map((course, i) => {
-                        return (<ListGroup.Item key={i + course.M.code.S}>{course.M.code.S} ({course.M.credit_points.S} UOC)</ListGroup.Item>)
+                        return (<ListGroup.Item key={i + course.M.code.S}>{course.M.code.S} ({course.M.credit_points ? course.M.credit_points.S : '0'} UOC)</ListGroup.Item>)
                     })}
                 </ListGroup>
             </div >
@@ -74,7 +77,7 @@ function RenderRule(props) {
                 </OverlayTrigger>
                 <ListGroup variant="flush">
                     {rule.M.courses && rule.M.courses.L.map((course, i) => {
-                        return (<ListGroup.Item key={i + course.M.code.S}>{course.M.code.S} ({course.M.credit_points.S} UOC)</ListGroup.Item>)
+                        return (<ListGroup.Item key={i + course.M.code.S}>{course.M.code.S} ({course.M.credit_points ? course.M.credit_points.S : '0'} UOC)</ListGroup.Item>)
                     })}
                 </ListGroup>
             </div >
@@ -119,7 +122,7 @@ function RenderRule(props) {
                     <Modal.Body>
                         <ListGroup variant="flush">
                             {rule.M.courses && rule.M.courses.L.map((course, i) => {
-                                return (<ListGroup.Item key={i + course.M.code.S}>{course.M.code.S} ({course.M.credit_points.S} UOC)</ListGroup.Item>)
+                                return (<ListGroup.Item key={i + course.M.code.S}>{course.M.code.S} ({course.M.credit_points ? course.M.credit_points.S : '0'} UOC)</ListGroup.Item>)
                             })}
                         </ListGroup>
                     </Modal.Body>
@@ -133,12 +136,13 @@ function RenderRule(props) {
         )
     }
     else {
+        console.log('rule', rule);
         return (
             <div key={props.ruleName + props.index}>
                 <Card.Title>
                     {stripHtml(rule.M.description.S)}
                 </Card.Title>
-                {rule.M.url.S && <Card.Body>{rule.M.url.S}</Card.Body>}
+                {rule.M.url && !rule.M.url.NULL && <Card.Body>{rule.M.url.S}</Card.Body>}
             </div >
         )
     }

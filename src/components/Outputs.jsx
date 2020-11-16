@@ -10,7 +10,6 @@ import Rules from './ruleParsers/Rules';
 import fakeRequirements from '../fakeRequirements.json';
 
 function DisplayRules(props) {
-    console.log("Reqs", props.requirements);
     return (
         <Accordion defaultActiveKey="0">
             {props.requirements.coreCourses && props.requirements.coreCourses.length && <Rules ruleName="Core Courses" requirements={props.requirements.coreCourses} eventKey={"0"} />}
@@ -27,18 +26,19 @@ function DisplayRules(props) {
 
 function Outputs(props) {
     // TODO: CHANGE fakeRequirements to props.requirements
+    console.log("props", props);
     return (
         <>
             <Jumbotron fluid>
                 <Container>
-                    <h1>{`${fakeRequirements.code}: ${fakeRequirements.title} (${fakeRequirements.implementation_year})`}</h1>
-                    {fakeRequirements.specialisations && fakeRequirements.specialisations.length && <h2>Specialisations: {fakeRequirements.specialisations.join(', ')}</h2>}
+                    <h1>{`${props.requirements.code}: ${props.requirements.title} (${props.requirements.implementation_year})`}</h1>
+                    {props.requirements.specialisations && props.requirements.specialisations.length && <h2>Specialisations: {props.requirements.specialisations.join(', ')}</h2>}
                 </Container>
                 <h5>
-                    You have at least {fakeRequirements.minimumUOC} UOC to go
+                    You have at least {props.requirements.minimumUOC} UOC to go
                 </h5>
             </Jumbotron>
-            <DisplayRules requirements={fakeRequirements}/>
+            <DisplayRules requirements={props.requirements}/>
         </>
     )
 }
