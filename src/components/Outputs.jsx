@@ -5,22 +5,20 @@ import {
     Accordion
 } from 'react-bootstrap';
 
-import RuleWithCourseList from './ruleParsers/RuleWithCourseList';
-import GeneralEducation from './ruleParsers/GeneralEducation';
-import Limits from './ruleParsers/Limits';
+import Rules from './ruleParsers/Rules';
 
 import fakeRequirements from '../fakeRequirements.json';
 
-function Rules(props) {
+function DisplayRules(props) {
     console.log("Reqs", props.requirements);
     return (
         <Accordion defaultActiveKey="0">
-            {props.requirements.coreCourses && props.requirements.coreCourses.length && <RuleWithCourseList ruleName="Core Courses" requirements={props.requirements.coreCourses} eventKey={"0"} />}
-            {props.requirements.prescribedElectives && props.requirements.prescribedElectives.length && <RuleWithCourseList ruleName="Prescribed Electives" requirements={props.requirements.prescribedElectives} eventKey={"1"}/>}
-            {props.requirements.oneOfTheFollowings && props.requirements.oneOfTheFollowings.length && <RuleWithCourseList ruleName="One of the Following" requirements={props.requirements.oneOfTheFollowings} eventKey={"2"}/>}
-            {props.requirements.generalEducation && props.requirements.generalEducation.length && <GeneralEducation ruleName="General Education" requirements={props.requirements.generalEducation} eventKey={"3"}/>}
-            {props.requirements.limitRules && props.requirements.limitRules.length && <Limits ruleName="Limits" requirements={props.requirements.limitRules} eventKey={"4"}/>}
-            {props.requirements.freeElectives && props.requirements.freeElectives.length && <Limits ruleName="Free Electives" requirements={props.requirements.freeElectives} eventKey={"5"}/>}
+            {props.requirements.coreCourses && props.requirements.coreCourses.length && <Rules ruleName="Core Courses" requirements={props.requirements.coreCourses} eventKey={"0"} />}
+            {props.requirements.prescribedElectives && props.requirements.prescribedElectives.length && <Rules ruleName="Prescribed Electives" requirements={props.requirements.prescribedElectives} eventKey={"1"}/>}
+            {props.requirements.oneOfTheFollowings && props.requirements.oneOfTheFollowings.length && <Rules ruleName="One of the Following" requirements={props.requirements.oneOfTheFollowings} eventKey={"2"}/>}
+            {props.requirements.generalEducation && props.requirements.generalEducation.length && <Rules ruleName="General Education" requirements={props.requirements.generalEducation} eventKey={"3"}/>}
+            {props.requirements.limitRules && props.requirements.limitRules.length && <Rules ruleName="Limits" requirements={props.requirements.limitRules} eventKey={"4"}/>}
+            {props.requirements.freeElectives && props.requirements.freeElectives.length && <Rules ruleName="Free Electives" requirements={props.requirements.freeElectives} eventKey={"5"}/>}
         </Accordion>
     )
 }
@@ -38,7 +36,7 @@ function Outputs(props) {
                     You have at least {fakeRequirements.minimumUOC} UOC to go
                 </h5>
             </Jumbotron>
-            <Rules requirements={fakeRequirements}/>
+            <DisplayRules requirements={fakeRequirements}/>
         </>
     )
 }
