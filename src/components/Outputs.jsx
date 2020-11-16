@@ -5,7 +5,8 @@ import {
     Card, 
     ListGroup, 
     OverlayTrigger, 
-    Tooltip
+    Tooltip, 
+    Accordion
 } from 'react-bootstrap';
 
 import fakeRequirements from '../fakeRequirements.json';
@@ -20,7 +21,7 @@ function CoreCourses(props) {
     console.log("requirements", props.coreCourses);
     const coreCourseOutputs = props.coreCourses.map((coreRequirement, i) => {
         return (
-            <>
+            <div key={i} >
                 <OverlayTrigger
                     key={'top'}
                     placement={'top'}
@@ -50,25 +51,31 @@ function CoreCourses(props) {
                         return (<ListGroup.Item key={i + course.M.code.S}>{course.M.code.S} ({course.M.credit_points.S} UOC)</ListGroup.Item>)
                     })}
                 </ListGroup>
-            </>
+            </div >
         )
     });
 
     return (
         <Card>
-            <Card.Header as="h5">Core Courses</Card.Header>
-            <Card.Body>
-                {coreCourseOutputs}
-            </Card.Body>
+            <Accordion.Toggle as={Card.Header} eventKey="0">
+                <h5>
+                    Core Courses
+                </h5>
+            </Accordion.Toggle>
+            <Accordion.Collapse eventKey="0">
+                <Card.Body>
+                    {coreCourseOutputs}
+                </Card.Body>
+            </Accordion.Collapse>
         </Card>
     )
 }
 
 function Rules(props) {
     return (
-        <>
-            {props.requirements.coreCourses.length && <CoreCourses coreCourses={props.requirements.coreCourses}/>}
-        </>
+        <Accordion defaultActiveKey="0">
+            {props.requirements.coreCourses.length && <CoreCourses coreCourses={props.requirements.coreCourses} />}
+        </Accordion>
     )
 }
 
@@ -81,10 +88,10 @@ function Outputs(props) {
                     <h1>{`${fakeRequirements.code}: ${fakeRequirements.title} (${fakeRequirements.implementation_year})`}</h1>
                     {fakeRequirements.specialisations.length && <h2>Specialisations: {fakeRequirements.specialisations.join(', ')}</h2>}
                 </Container>
+                <h5>
+                    You have at least {fakeRequirements.minimumUOC} UOC to go
+                </h5>
             </Jumbotron>
-            <h4>
-                You have at least {fakeRequirements.minimumUOC} UOC to go
-            </h4>
             <Rules requirements={fakeRequirements}/>
         </>
     )
