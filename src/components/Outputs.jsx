@@ -17,9 +17,8 @@ function stripHtml(html) {
     return tmp.textContent || tmp.innerText || "";
 }
 
-function CoreCourses(props) {
-    console.log("requirements", props.coreCourses);
-    const coreCourseOutputs = props.coreCourses.map((coreRequirement, i) => {
+function RuleWithCourseList(props) {
+    const coreCourseOutputs = props.requirements.map((coreRequirement, i) => {
         return (
             <div key={i} >
                 <OverlayTrigger
@@ -57,12 +56,12 @@ function CoreCourses(props) {
 
     return (
         <Card>
-            <Accordion.Toggle as={Card.Header} eventKey="0">
-                <h5>
-                    Core Courses
-                </h5>
+            <Accordion.Toggle as={Card.Header} eventKey={props.eventKey}>
+                <h3>
+                    {props.ruleName}
+                </h3>
             </Accordion.Toggle>
-            <Accordion.Collapse eventKey="0">
+            <Accordion.Collapse eventKey={props.eventKey}>
                 <Card.Body>
                     {coreCourseOutputs}
                 </Card.Body>
@@ -74,7 +73,8 @@ function CoreCourses(props) {
 function Rules(props) {
     return (
         <Accordion defaultActiveKey="0">
-            {props.requirements.coreCourses.length && <CoreCourses coreCourses={props.requirements.coreCourses} />}
+            {props.requirements.coreCourses.length && <RuleWithCourseList ruleName="Core Courses" requirements={props.requirements.coreCourses} eventKey={"0"} />}
+            {props.requirements.prescribedElectives.length && <RuleWithCourseList ruleName="Prescribed Electives" requirements={props.requirements.prescribedElectives} eventKey={"1"}/>}
         </Accordion>
     )
 }
