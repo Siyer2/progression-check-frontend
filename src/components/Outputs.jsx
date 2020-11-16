@@ -19,6 +19,8 @@ function DisplayRules(props) {
             {props.requirements.generalEducation && props.requirements.generalEducation.length && <Rules ruleName="General Education" requirements={props.requirements.generalEducation} eventKey={"3"}/>}
             {props.requirements.limitRules && props.requirements.limitRules.length && <Rules ruleName="Limits" requirements={props.requirements.limitRules} eventKey={"4"}/>}
             {props.requirements.freeElectives && props.requirements.freeElectives.length && <Rules ruleName="Free Electives" requirements={props.requirements.freeElectives} eventKey={"5"}/>}
+            {props.requirements.maturityRules && props.requirements.maturityRules.length && <Rules ruleName="Order of Courses" requirements={props.requirements.maturityRules} eventKey={"6"}/>}
+            {props.requirements.informationRules && props.requirements.informationRules.length && <Rules ruleName="Other Important Info" requirements={props.requirements.informationRules} eventKey={"7"}/>}
         </Accordion>
     )
 }

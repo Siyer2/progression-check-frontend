@@ -20,7 +20,7 @@ function RenderRule(props) {
 
     const rule = props.rule;
     // Course list and credit points exist
-    if ((rule.M.courses && rule.M.courses.L.length <= courseShowLimit) && (rule.M.credit_points && rule.M.credit_points.S)) {
+    if ((rule.M.courses && rule.M.courses.L.length <= courseShowLimit) && (rule.M.credit_points && rule.M.credit_points.S) || (rule.M.credit_points_max && rule.M.credit_points_max.S)) {
         return (
             <div key={props.ruleName + props.index}>
                 <OverlayTrigger
@@ -134,7 +134,12 @@ function RenderRule(props) {
     }
     else {
         return (
-            <div>NOTHING FOUND</div>
+            <div key={props.ruleName + props.index}>
+                <Card.Title>
+                    {stripHtml(rule.M.description.S)}
+                </Card.Title>
+                {rule.M.url.S && <Card.Body>{rule.M.url.S}</Card.Body>}
+            </div >
         )
     }
 }
