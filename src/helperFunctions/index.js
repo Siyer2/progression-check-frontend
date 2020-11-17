@@ -6,7 +6,7 @@ export function stripHtml(html) {
     return tmp.textContent || tmp.innerText || "";
 }
 
-//==== ====//
+//==== Logic when a course is added ====//
 export async function getRemainingRequirements(newCourse, program) {
     var adjustRulesPromises = Object.keys(program).map((ruleName) => {
         return new Promise((resolve, reject) => {
@@ -74,4 +74,14 @@ function adjustUOC(newCourse, program) {
             reject(ex);
         }
     });
+}
+
+//==== Logic to see if a rule should be displayed ====//
+export function ruleIsCompleted(rule) {
+    if (rule.M.completedCourses &&
+        (rule.M.credit_points && rule.M.credit_points.S === 0 || rule.M.credit_points_max && rule.M.credit_points_max.S === 0)
+        || (rule.M.courses && rule.M.courses.L.length === 0)
+    ) {
+        return true;
+    }
 }
