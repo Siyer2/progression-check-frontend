@@ -25,6 +25,12 @@ export async function getRemainingRequirements(newCourse, program) {
                             // If a course was found and removed, then add it to the completed course list
                             if (removedCourse) {
                                 individualRule.M.completedCourses ? individualRule.M.completedCourses.push(removedCourse) : individualRule.M.completedCourses = [removedCourse];
+
+                                // Adjust the credit points if it exists
+                                const oldCreditPoints = individualRule.M.credit_points && individualRule.M.credit_points.S ? parseInt(individualRule.M.credit_points.S) : null;
+                                if (oldCreditPoints) {
+                                    individualRule.M.credit_points.S = oldCreditPoints - parseInt(newCourse.Item.credit_points.S);
+                                }
                             }
                         }
                     });
