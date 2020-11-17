@@ -12,8 +12,10 @@ function CourseSelector(props) {
     const [courseInput, setCourseInput] = useState('');
     const [courseList, setCourseList] = useState([]);
     const [completedCourses, setCompletedCourses] = useState([]);
+    const [courseError, setCourseError] = useState('');
 
     const handleCourseInputChange = newValue => {
+        setCourseError('');
         setCourseInput(newValue);
     }
 
@@ -41,12 +43,18 @@ function CourseSelector(props) {
             courseFromDataList = await getCourse(courseInput.course_code);
         }
 
-        const newCompletedCourses = completedCourses.concat([courseFromDataList.item]);
-        setCompletedCourses(newCompletedCourses);
+        if (!courseFromDataList) {
+            setCourseError(`Course not found`);
+        }
+        else {
+            const newCompletedCourses = completedCourses.concat([courseFromDataList.item]);
+            setCompletedCourses(newCompletedCourses);
+    
+            props.addedCourse(courseFromDataList.item);
+    
+            setCourseInput('');
+        }
 
-        props.addedCourse(courseFromDataList.item);
-
-        setCourseInput('');
     }
 
     const listOfCompletedCourses = completedCourses.length && completedCourses.map((completedCourse, i) => {
@@ -65,6 +73,11 @@ function CourseSelector(props) {
             <Form.Row>
                 <Col>
                     <AsyncSelect onChange={handleCourseInputChange} cacheOptions defaultOptions loadOptions={promiseOptions} placeholder={"Add courses you've completed..."} value={courseInput}/>
+                    {courseError &&
+                    <Form.Text className="text-muted">
+                        {courseError}
+                    </Form.Text>
+                    }
                 </Col>
                 <Col xs="auto">
                     <Button onClick={() => { courseAdded() }} className="mb-2">
