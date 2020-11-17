@@ -8,9 +8,8 @@ export function stripHtml(html) {
 
 //==== ====//
 export async function getRemainingRequirements(newCourse, program) {
+    console.log("newCourse", newCourse);
     console.log("program", program);
-    console.log("new course", newCourse);
-
     var adjustRulesPromises = Object.keys(program).map((ruleName) => {
         return new Promise((resolve, reject) => {
             try {
@@ -23,6 +22,7 @@ export async function getRemainingRequirements(newCourse, program) {
                             });
 
                             // If a course was found and removed, then add it to the completed course list
+                            console.log("removed course", removedCourse);
                             if (removedCourse.length) {
                                 individualRule.M.completedCourses ? individualRule.M.completedCourses.push(removedCourse) : individualRule.M.completedCourses = [removedCourse];
 
@@ -67,7 +67,7 @@ function adjustUOC(newCourse, program) {
     return new Promise((resolve, reject) => {
         try {
             const existingUOC = parseInt(program.minimumUOC);
-            const courseUOC = parseInt(newCourse.Item.credit_points.S);
+            const courseUOC = newCourse.Item.credit_points ? parseInt(newCourse.Item.credit_points.S) : 0;
             const newUOC = existingUOC - courseUOC;
 
             resolve(newUOC);
@@ -77,29 +77,3 @@ function adjustUOC(newCourse, program) {
         }
     });
 }
-
-// Loop through each rule and see if it exists, remove it if it does
-function adjustAllRules(newCourse, program) {
-    return new Promise((resolve, reject) => {
-        try {
-
-        } catch (ex) {
-            console.log("EXCEPTION ADJUSTING UOC", ex);
-            reject(ex);
-        }
-    });
-}
-
-/*
-// Fix minimum UOC
-function adjustUOC(newCourse, program) {
-    return new Promise((resolve, reject) => {
-        try {
-            
-        } catch (ex) {
-            console.log("EXCEPTION ADJUSTING UOC", ex);
-            reject(ex);
-        }
-    });
-}
-*/

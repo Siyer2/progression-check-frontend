@@ -18,7 +18,7 @@ function Results(props) {
 
     async function addedCourse(course) {
         const newRemainingRequirements = await getRemainingRequirements(course, props.requirements.requirements);
-        
+        console.log("Remaining requirements", newRemainingRequirements);
         setRemainingRequirements(prevState => {
             return {...prevState, newRemainingRequirements}
         });
