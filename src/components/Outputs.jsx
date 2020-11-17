@@ -24,6 +24,7 @@ function DisplayRules(props) {
 }
 
 function Outputs(props) {
+    console.log("req", props.requirements);
     return (
         <>
             <Jumbotron fluid>
