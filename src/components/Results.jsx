@@ -3,30 +3,34 @@ import { connect } from 'react-redux';
 
 import Outputs from './Outputs';
 import { getRemainingRequirements } from '../helperFunctions';
+import { updateRemainingRequirements } from '../actions/requirementsAction';
 
 import fakeRequirements from '../fakeRequirements.json';
 
 function Results(props) {
-    const [remainingRequirements, setRemainingRequirements] = useState(fakeRequirements); // This should be props.requirements.requirements not fakeRequirements
-    
+    // console.log("props", props.location.initialRequirements);
+    // const [remainingRequirements, setRemainingRequirements] = useState(props.requirements.requirements); // This should be props.requirements.requirements not fakeRequirements
+    const [remainingRequirements, setRemainingRequirements] = useState('');
+
     if (!props.requirements.isGettingRequirements) {
         console.log("FINAL", props.requirements.requirements);
     }
 
     async function addedCourse(course) {
-        const newRemainingRequirements = await getRemainingRequirements(course, remainingRequirements);
-
+        const newRemainingRequirements = await getRemainingRequirements(course, props.requirements.requirements);
+        
         setRemainingRequirements(prevState => {
             return {...prevState, newRemainingRequirements}
         });
+        props.updateRemainingRequirements(newRemainingRequirements);
     }
 
     // TESTING 
-    return (
-        <>
-            <Outputs requirements={remainingRequirements} addedCourse={addedCourse}/>
-        </>
-    )
+    // return (
+    //     <>
+    //         <Outputs requirements={remainingRequirements} addedCourse={addedCourse}/>
+    //     </>
+    // )
 
     // ACTUAL
     return (
@@ -60,4 +64,12 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, null)(Results);
+const mapDispatchToProps = dispatch => {
+    return {
+        updateRemainingRequirements: (newRemainingRequirements) => {
+            dispatch(updateRemainingRequirements(newRemainingRequirements))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Results);

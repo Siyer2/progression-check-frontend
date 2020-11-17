@@ -21,7 +21,7 @@ function RenderRule(props) {
     const rule = props.rule;
 
     // Don't display the rule if it's already been completed
-    if (rule.M.completedCourses && rule.M.credit_points && rule.M.credit_points.S === 0) {
+    if (rule.M.completedCourses && (rule.M.credit_points && rule.M.credit_points.S === 0 || rule.M.credit_points_max && rule.M.credit_points_max.S === 0)) {
         return (
             <> </>
         )

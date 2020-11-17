@@ -11,14 +11,14 @@ import CourseSelector from './CourseSelector';
 function DisplayRules(props) {
     return (
         <Accordion defaultActiveKey="0">
-            {props.requirements.coreCourses && props.requirements.coreCourses.length && <Rules ruleName="Core Courses" requirements={props.requirements.coreCourses} eventKey={"0"} />}
-            {props.requirements.prescribedElectives && props.requirements.prescribedElectives.length && <Rules ruleName="Prescribed Electives" requirements={props.requirements.prescribedElectives} eventKey={"1"}/>}
-            {props.requirements.oneOfTheFollowings && props.requirements.oneOfTheFollowings.length && <Rules ruleName="One of the Following" requirements={props.requirements.oneOfTheFollowings} eventKey={"2"}/>}
-            {props.requirements.generalEducation && props.requirements.generalEducation.length && <Rules ruleName="General Education" requirements={props.requirements.generalEducation} eventKey={"3"}/>}
-            {props.requirements.limitRules && props.requirements.limitRules.length && <Rules ruleName="Limits" requirements={props.requirements.limitRules} eventKey={"4"}/>}
-            {props.requirements.freeElectives && props.requirements.freeElectives.length && <Rules ruleName="Free Electives" requirements={props.requirements.freeElectives} eventKey={"5"}/>}
-            {props.requirements.maturityRules && props.requirements.maturityRules.length && <Rules ruleName="Order of Courses" requirements={props.requirements.maturityRules} eventKey={"6"}/>}
-            {props.requirements.informationRules && props.requirements.informationRules.length && <Rules ruleName="Other Important Info" requirements={props.requirements.informationRules} eventKey={"7"}/>}
+            {props.requirements.coreCourses && props.requirements.coreCourses.length ? <Rules ruleName="Core Courses" requirements={props.requirements.coreCourses} eventKey={"0"} /> : null}
+            {props.requirements.prescribedElectives && props.requirements.prescribedElectives.length ? <Rules ruleName="Prescribed Electives" requirements={props.requirements.prescribedElectives} eventKey={"1"}/> : null}
+            {props.requirements.oneOfTheFollowings && props.requirements.oneOfTheFollowings.length ? <Rules ruleName="One of the Following" requirements={props.requirements.oneOfTheFollowings} eventKey={"2"}/> : null}
+            {props.requirements.generalEducation && props.requirements.generalEducation.length ? <Rules ruleName="General Education" requirements={props.requirements.generalEducation} eventKey={"3"}/> : null}
+            {props.requirements.limitRules && props.requirements.limitRules.length ? <Rules ruleName="Limits" requirements={props.requirements.limitRules} eventKey={"4"}/> : null}
+            {props.requirements.freeElectives && props.requirements.freeElectives.length ? <Rules ruleName="Free Electives" requirements={props.requirements.freeElectives} eventKey={"5"}/> : null}
+            {props.requirements.maturityRules && props.requirements.maturityRules.length ? <Rules ruleName="Order of Courses" requirements={props.requirements.maturityRules} eventKey={"6"}/> : null}
+            {props.requirements.informationRules && props.requirements.informationRules.length ? <Rules ruleName="Other Important Info" requirements={props.requirements.informationRules} eventKey={"7"}/> : null}
         </Accordion>
     )
 }

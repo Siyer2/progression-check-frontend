@@ -123,7 +123,7 @@ function Inputs(props) {
             <Specialialisations />
 
             {/* Go */}
-            <Link to={{pathname: "/results", requirements: selectedProgram}}>
+            <Link to={{pathname: "/results", initialRequirements: selectedProgram}}>
                 <button onClick={() => { goClicked() }} type="submit" disabled={isGoDisabled} className="btn btn-primary">
                     Go
                 </button>

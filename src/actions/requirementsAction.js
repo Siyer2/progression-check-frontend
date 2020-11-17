@@ -14,6 +14,13 @@ function finishRequirements(data) {
     }
 }
 
+function updateRequirements(data) {
+    return {
+        type: 'UPDATE_REQUIREMENTS',
+        requirements: data
+    }
+}
+
 function failedRequirements(error) {
     return {
         type: 'FAILED_REQUIREMENTS',
@@ -37,6 +44,17 @@ export function getProgramRequirements(code, implementation_year, specialisation
             dispatch(finishRequirements(requirements));
         } catch (error) {
             console.log("ERROR GETTING PROGRAM REQUIREMENTS", error);
+            dispatch(failedRequirements(error.toString()));
+        }
+    }
+}
+
+export function updateRemainingRequirements(newRequirements) {
+    return function(dispatch) {
+        try {
+            dispatch(updateRequirements(newRequirements));
+        } catch (error) {
+            console.log("ERROR UPDATING REQUIREMENTS", error);
             dispatch(failedRequirements(error.toString()));
         }
     }
