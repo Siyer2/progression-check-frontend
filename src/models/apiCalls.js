@@ -29,6 +29,32 @@ module.exports = {
             }
         });
     }, 
+    getCourseList: function (query) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                var config = {
+                    method: 'post',
+                    url: `${domain}/autocompleteCourses`,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: { query }
+                };
+
+                axios(config)
+                    .then(function (response) {
+                        resolve(response.data);
+                    })
+                    .catch(function (error) {
+                        console.log("AXIOS ERROR GETTING COURSE LIST", error);
+                        reject(error);
+                    });
+            } catch (ex) {
+                console.log("EXCEPTION GETTING COURSE LIST", ex);
+                reject(ex);
+            }
+        });
+    }, 
     getProgram: function (code, year) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -55,6 +81,35 @@ module.exports = {
                     });
             } catch (ex) {
                 console.log("EXCEPTION GETTING PROGRAM", ex);
+                reject(ex);
+            }
+        });
+    }, 
+    getCourse: function (course_code) {
+        return new Promise(async (resolve, reject) => {
+            try {
+
+                var config = {
+                    method: 'post',
+                    url: `${domain}/getCourse`,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        course_code: course_code
+                    }
+                };
+
+                axios(config)
+                    .then(function (response) {
+                        resolve(response.data);
+                    })
+                    .catch(function (error) {
+                        console.log("AXIOS ERROR GETTING COURSE", error);
+                        reject(error);
+                    });
+            } catch (ex) {
+                console.log("EXCEPTION GETTING COURSE", ex);
                 reject(ex);
             }
         });

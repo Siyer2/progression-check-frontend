@@ -136,7 +136,6 @@ function RenderRule(props) {
         )
     }
     else {
-        console.log('rule', rule);
         const url = rule.M.url && !rule.M.url.NULL ? `https://www.handbook.unsw.edu.au${rule.M.url.S}` : null;
 
         return (

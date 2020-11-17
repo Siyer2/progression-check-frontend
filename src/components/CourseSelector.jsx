@@ -1,57 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Form, 
     Col, 
     Button
 } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
+import _ from 'lodash';
+import { getCourseList, getCourse } from '../models/apiCalls';
 
 function CourseSelector() {
+    const [courseInput, setCourseInput] = useState('');
+    const [courseList, setCourseList] = useState([]);
+    const [completedCourses, setCompletedCourses] = useState([]);
+
     const handleCourseInputChange = newValue => {
-        // setProgramInput(newValue);
-        console.log(newValue);
+        setCourseInput(newValue);
     }
 
     const promiseOptions = inputValue => {
         return new Promise(async resolve => {
-            // const programs = await getProgramList(inputValue);
-            // setDataList(programs);
-            // const formattedPrograms = programs.map((program) => {
-            //     return {
-            //         year: program.item.Item.implementation_year.S,
-            //         code: program.item.Item.code.S,
-            //         label: `${program.item.Item.code.S}: ${program.item.Item.title.S} (${program.item.Item.implementation_year.S})`
-            //     }
-            // });
-            // resolve(formattedPrograms);
-
-            resolve();
+            const courses = await getCourseList(inputValue);
+            setCourseList(courses);
+            const formattedCourses = courses.map((course) => {
+                return {
+                    course_code: course.item.Item.course_code.S,
+                    label: `${course.item.Item.course_code.S}: ${course.item.Item.name.S}`
+                }
+            });
+            resolve(formattedCourses);
         });
     }
 
-    function courseAdded() {
-        // // See if it's a valid program
-        // const code = programInput.code;
-        // const year = programInput.year;
+    async function courseAdded() {
+        // Get the course from the course list
+        var courseFromDataList = _.find(courseList, function(course) {
+            return course.item.Item.course_code.S === courseInput.course_code
+        });
 
-        // var programFromDataList = _.find(dataList, function (program) {
-        //     return program.item.Item.code.S === code && program.item.Item.implementation_year.S === year;
-        // });
+        if (!courseFromDataList) {
+            courseFromDataList = await getCourse(courseInput.course_code);
+        }
 
-        // if (!programFromDataList) {
-        //     programFromDataList = await getProgram(code, year);
-        // }
-
-        // if (!programFromDataList) {
-        //     setProgramError('Program not found');
-        // }
-        // else {
-        //     setProgramError('');
-        // }
-
-        // setSelectedProgram(programFromDataList);
-        console.log("course added");
+        const newCompletedCourses = completedCourses.concat([courseFromDataList.item]);
+        setCompletedCourses(newCompletedCourses);
     }
+
+    const listOfCompletedCourses = completedCourses.length && completedCourses.map((completedCourse, i) => {
+        const link = `https://www.handbook.unsw.edu.au${completedCourse.Item.link.S}`;
+        return (
+            <a style={{ textDecoration: 'none' }} href={link} target='_blank' key={completedCourse.Item.course_code.S + i}>
+                <Button variant="secondary" block>
+                        {completedCourse.Item.course_code.S}: {completedCourse.Item.name.S}
+                </Button>
+            </a>
+        )
+    });
 
     return (
         <Form style={{padding: '10px'}}>
@@ -65,6 +68,13 @@ function CourseSelector() {
                     </Button>
                 </Col>
             </Form.Row>
+            {completedCourses.length ? 
+                <>
+                    Completed Courses:
+                    {listOfCompletedCourses}
+                </>
+            : <></>    
+            }
         </Form>
     )
 }
