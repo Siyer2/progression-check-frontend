@@ -11,14 +11,14 @@ import CourseSelector from './CourseSelector';
 function DisplayRules(props) {
     return (
         <Accordion defaultActiveKey="0">
-            {props.requirements.coreCourses && props.requirements.coreCourses.length ? <Rules ruleName="Core Courses" requirements={props.requirements.coreCourses} eventKey={"0"} /> : null}
-            {props.requirements.prescribedElectives && props.requirements.prescribedElectives.length ? <Rules ruleName="Prescribed Electives" requirements={props.requirements.prescribedElectives} eventKey={"1"}/> : null}
-            {props.requirements.oneOfTheFollowings && props.requirements.oneOfTheFollowings.length ? <Rules ruleName="One of the Following" requirements={props.requirements.oneOfTheFollowings} eventKey={"2"}/> : null}
-            {props.requirements.generalEducation && props.requirements.generalEducation.length ? <Rules ruleName="General Education" requirements={props.requirements.generalEducation} eventKey={"3"}/> : null}
-            {props.requirements.limitRules && props.requirements.limitRules.length ? <Rules ruleName="Limits" requirements={props.requirements.limitRules} eventKey={"4"}/> : null}
-            {props.requirements.freeElectives && props.requirements.freeElectives.length ? <Rules ruleName="Free Electives" requirements={props.requirements.freeElectives} eventKey={"5"}/> : null}
-            {props.requirements.maturityRules && props.requirements.maturityRules.length ? <Rules ruleName="Order of Courses" requirements={props.requirements.maturityRules} eventKey={"6"}/> : null}
-            {props.requirements.informationRules && props.requirements.informationRules.length ? <Rules ruleName="Other Important Info" requirements={props.requirements.informationRules} eventKey={"7"}/> : null}
+            {props.requirements.coreCourses && (props.requirements.coreCourses.length || props.requirements.coreCourses.L.length) ? <Rules ruleName="Core Courses" requirements={props.requirements.coreCourses.length ? props.requirements.coreCourses : props.requirements.coreCourses.L} eventKey={"0"} /> : null}
+            {props.requirements.prescribedElectives && (props.requirements.prescribedElectives.length || props.requirements.prescribedElectives.L.length) ? <Rules ruleName="Prescribed Electives" requirements={props.requirements.prescribedElectives.length ? props.requirements.prescribedElectives : props.requirements.prescribedElectives.L} eventKey={"1"}/> : null}
+            {props.requirements.oneOfTheFollowings && (props.requirements.oneOfTheFollowings.length || props.requirements.oneOfTheFollowings.L.length) ? <Rules ruleName="One of the Following" requirements={props.requirements.oneOfTheFollowings.length ? props.requirements.oneOfTheFollowings : props.requirements.oneOfTheFollowings.L} eventKey={"2"}/> : null}
+            {props.requirements.generalEducation && (props.requirements.generalEducation.length || props.requirements.generalEducation.L.length) ? <Rules ruleName="General Education" requirements={props.requirements.generalEducation.length ? props.requirements.generalEducation : props.requirements.generalEducation.L} eventKey={"3"}/> : null}
+            {props.requirements.limitRules && (props.requirements.limitRules.length || props.requirements.limitRules.L.length) ? <Rules ruleName="Limits" requirements={props.requirements.limitRules.length ? props.requirements.limitRules : props.requirements.limitRules.L} eventKey={"4"}/> : null}
+            {props.requirements.freeElectives && (props.requirements.freeElectives.length || props.requirements.freeElectives.L.length) ? <Rules ruleName="Free Electives" requirements={props.requirements.freeElectives.length ? props.requirements.freeElectives : props.requirements.freeElectives.L} eventKey={"5"}/> : null}
+            {props.requirements.maturityRules && (props.requirements.maturityRules.length || props.requirements.maturityRules.L.length) ? <Rules ruleName="Order of Courses" requirements={props.requirements.maturityRules.length ? props.requirements.maturityRules : props.requirements.maturityRules.L} eventKey={"6"}/> : null}
+            {props.requirements.informationRules && (props.requirements.informationRules.length || props.requirements.informationRules.L.length) ? <Rules ruleName="Other Important Info" requirements={props.requirements.informationRules.length ? props.requirements.informationRules : props.requirements.informationRules.L} eventKey={"7"}/> : null}
         </Accordion>
     )
 }
