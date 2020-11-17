@@ -12,8 +12,9 @@ export async function getRemainingRequirements(newCourse, program) {
         return new Promise((resolve, reject) => {
             try {
                 // Check if each object has a course list
-                if (Array.isArray(program[ruleName])) {
-                    program[ruleName].map((individualRule) => {
+                var arrayToMap = Array.isArray(program[ruleName]) ? program[ruleName] : Array.isArray(program[ruleName].L) ? program[ruleName].L : null;
+                if (arrayToMap) {
+                    arrayToMap.map((individualRule) => {
                         if (individualRule.M && individualRule.M.courses && individualRule.M.courses.L.length) {
                             const removedCourse = _.remove(individualRule.M.courses.L, function (course) {
                                 return course.M.code.S === newCourse.Item.course_code.S;
