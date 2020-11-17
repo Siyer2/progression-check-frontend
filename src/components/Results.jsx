@@ -8,13 +8,7 @@ import { updateRemainingRequirements } from '../actions/requirementsAction';
 import fakeRequirements from '../fakeRequirements.json';
 
 function Results(props) {
-    // console.log("props", props.location.initialRequirements);
-    // const [remainingRequirements, setRemainingRequirements] = useState(props.requirements.requirements); // This should be props.requirements.requirements not fakeRequirements
     const [remainingRequirements, setRemainingRequirements] = useState('');
-
-    if (!props.requirements.isGettingRequirements) {
-        console.log("FINAL", props.requirements.requirements);
-    }
 
     async function addedCourse(course) {
         const newRemainingRequirements = await getRemainingRequirements(course, props.requirements.requirements);

@@ -8,8 +8,6 @@ export function stripHtml(html) {
 
 //==== ====//
 export async function getRemainingRequirements(newCourse, program) {
-    console.log("newCourse", newCourse);
-    console.log("program", program);
     var adjustRulesPromises = Object.keys(program).map((ruleName) => {
         return new Promise((resolve, reject) => {
             try {
@@ -22,7 +20,6 @@ export async function getRemainingRequirements(newCourse, program) {
                             });
 
                             // If a course was found and removed, then add it to the completed course list
-                            console.log("removed course", removedCourse);
                             if (removedCourse.length) {
                                 individualRule.M.completedCourses ? individualRule.M.completedCourses.push(removedCourse) : individualRule.M.completedCourses = [removedCourse];
 
