@@ -10,10 +10,14 @@ function Results(props) {
         console.log("FINAL", props.requirements.requirements);
     }
 
+    function addedCourse(course) {
+        console.log("ADDED COURSE", course);
+    }
+
     // TESTING 
     return (
         <>
-            <Outputs requirements={fakeRequirements} />
+            <Outputs requirements={fakeRequirements} addedCourse={addedCourse}/>
         </>
     )
 

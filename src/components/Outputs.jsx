@@ -34,9 +34,8 @@ function Outputs(props) {
                 <h5>
                     You have at least {props.requirements.minimumUOC} UOC to go
                 </h5>
-                <CourseSelector />
+                <CourseSelector addedCourse={props.addedCourse}/>
             </Jumbotron>
-
 
             <DisplayRules requirements={props.requirements}/>
         </>

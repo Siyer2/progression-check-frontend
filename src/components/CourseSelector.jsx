@@ -8,7 +8,7 @@ import AsyncSelect from 'react-select/async';
 import _ from 'lodash';
 import { getCourseList, getCourse } from '../models/apiCalls';
 
-function CourseSelector() {
+function CourseSelector(props) {
     const [courseInput, setCourseInput] = useState('');
     const [courseList, setCourseList] = useState([]);
     const [completedCourses, setCompletedCourses] = useState([]);
@@ -43,6 +43,8 @@ function CourseSelector() {
 
         const newCompletedCourses = completedCourses.concat([courseFromDataList.item]);
         setCompletedCourses(newCompletedCourses);
+
+        props.addedCourse(courseFromDataList.item);
 
         setCourseInput('');
     }
