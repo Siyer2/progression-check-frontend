@@ -19,6 +19,14 @@ function RenderRule(props) {
     const courseShowLimit = 20;
 
     const rule = props.rule;
+
+    // Don't display the rule if it's already been completed
+    if (rule.M.completedCourses && rule.M.credit_points && rule.M.credit_points.S === 0) {
+        return (
+            <> </>
+        )
+    }
+
     // Course list and credit points exist
     if ((rule.M.courses && rule.M.courses.L.length <= courseShowLimit) && ((rule.M.credit_points && rule.M.credit_points.S) || (rule.M.credit_points_max && rule.M.credit_points_max.S))) {
         return (
