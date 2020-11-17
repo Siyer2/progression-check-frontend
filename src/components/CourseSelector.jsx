@@ -43,6 +43,8 @@ function CourseSelector() {
 
         const newCompletedCourses = completedCourses.concat([courseFromDataList.item]);
         setCompletedCourses(newCompletedCourses);
+
+        setCourseInput('');
     }
 
     const listOfCompletedCourses = completedCourses.length && completedCourses.map((completedCourse, i) => {
@@ -60,7 +62,7 @@ function CourseSelector() {
         <Form style={{padding: '10px'}}>
             <Form.Row>
                 <Col>
-                    <AsyncSelect onChange={handleCourseInputChange} cacheOptions defaultOptions loadOptions={promiseOptions} placeholder={"Add courses you've completed..."} />
+                    <AsyncSelect onChange={handleCourseInputChange} cacheOptions defaultOptions loadOptions={promiseOptions} placeholder={"Add courses you've completed..."} value={courseInput}/>
                 </Col>
                 <Col xs="auto">
                     <Button onClick={() => { courseAdded() }} className="mb-2">
