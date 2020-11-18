@@ -25,8 +25,9 @@ function CourseSelector(props) {
         if (props.requirements.requirements.code) {
             var allCourses = [];
             Object.keys(props.requirements.requirements).map((ruleName) => {
-                if (Array.isArray(props.requirements.requirements[ruleName])) {
-                    var rule = props.requirements.requirements[ruleName].flatMap(o => o.M).flatMap(o => o.courses);
+                const ruleArray = Array.isArray(props.requirements.requirements[ruleName]) ? props.requirements.requirements[ruleName] : Array.isArray(props.requirements.requirements[ruleName].L) ? props.requirements.requirements[ruleName].L : null;
+                if (Array.isArray(ruleArray) && ruleName !== 'specialisations') { // This array could be props.requirements.requirements[ruleName].L
+                    var rule = ruleArray.flatMap(o => o.M).flatMap(o => o.courses);
                     
                     const course = rule.map((ruleWithCourse) => {
                         if (ruleWithCourse && Array.isArray(ruleWithCourse.L)) {
@@ -39,7 +40,6 @@ function CourseSelector(props) {
             });
     
             var coursesToDisplay = [];
-            
             allCourses.map((course) => {
                 if (course && coursesToDisplay.length < 10) {
                     coursesToDisplay.push({
