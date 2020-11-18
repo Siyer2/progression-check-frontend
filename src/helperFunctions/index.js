@@ -17,7 +17,7 @@ export async function getRemainingRequirements(newCourse, program) {
                     arrayToMap.map((individualRule) => {
                         if (individualRule.M && individualRule.M.courses && individualRule.M.courses.L.length) {
                             const removedCourse = _.remove(individualRule.M.courses.L, function (course) {
-                                return course.M.code.S === newCourse.Item.course_code.S;
+                                return course.M.code.S === newCourse.course_code.S;
                             });
 
                             // If a course was found and removed, then add it to the completed course list
@@ -26,15 +26,15 @@ export async function getRemainingRequirements(newCourse, program) {
 
                                 // Adjust the credit points if it exists
                                 const oldCreditPoints = individualRule.M.credit_points && individualRule.M.credit_points.S ? parseInt(individualRule.M.credit_points.S) : null;
-                                if (oldCreditPoints && newCourse.Item.credit_points) {
-                                    const newCreditPoints = newCourse.Item.credit_points.S ? parseInt(newCourse.Item.credit_points.S) : 0;
+                                if (oldCreditPoints && newCourse.credit_points) {
+                                    const newCreditPoints = newCourse.credit_points.S ? parseInt(newCourse.credit_points.S) : 0;
                                     individualRule.M.credit_points.S = oldCreditPoints - newCreditPoints;
                                 }
 
                                 // Adjust the credit_points_max if it exists
                                 const oldCreditPointsMax = individualRule.M.credit_points_max && individualRule.M.credit_points_max.S ? parseInt(individualRule.M.credit_points_max.S) : null;
-                                if (oldCreditPointsMax && newCourse.Item.credit_points) {
-                                    const newCreditPointsMax = newCourse.Item.credit_points.S ? parseInt(newCourse.Item.credit_points.S) : 0;
+                                if (oldCreditPointsMax && newCourse.credit_points) {
+                                    const newCreditPointsMax = newCourse.credit_points.S ? parseInt(newCourse.credit_points.S) : 0;
                                     individualRule.M.credit_points_max.S = oldCreditPointsMax - newCreditPointsMax;
                                 }
                             }
@@ -65,7 +65,7 @@ function adjustUOC(newCourse, program) {
     return new Promise((resolve, reject) => {
         try {
             const existingUOC = parseInt(program.minimumUOC);
-            const courseUOC = newCourse.Item.credit_points ? parseInt(newCourse.Item.credit_points.S) : 0;
+            const courseUOC = newCourse.credit_points ? parseInt(newCourse.credit_points.S) : 0;
             const newUOC = existingUOC - courseUOC;
 
             resolve(newUOC);
