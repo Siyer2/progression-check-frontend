@@ -21,7 +21,7 @@ function RenderRule(props) {
     const rule = props.rule;
 
     // Don't display the rule if it's already been completed
-    if (ruleIsCompleted(rule)) {
+    if (ruleIsCompleted(rule, props.ruleName)) {
         return (
             <></>
         ) 

@@ -77,8 +77,14 @@ function adjustUOC(newCourse, program) {
 }
 
 //==== Logic to see if a rule should be displayed ====//
-export function ruleIsCompleted(rule) {
-    if (rule.M.completedCourses &&
+export function ruleIsCompleted(rule, ruleName) {
+    // If the rule is a oneOfTheFollowings, it is done when any course is completed
+    if (ruleName === "One of the Following") {
+        if (rule.M.completedCourses && rule.M.completedCourses.length) {
+            return true;
+        }
+    }
+    else if (rule.M.completedCourses &&
         (rule.M.credit_points && rule.M.credit_points.S === 0 || rule.M.credit_points_max && rule.M.credit_points_max.S === 0)
         || (rule.M.courses && rule.M.courses.L.length === 0)
     ) {

@@ -11,7 +11,7 @@ import { ruleIsCompleted } from '../helperFunctions';
 
 function DisplayRulesToDo(props) {
     // Check if every rule is done
-    const isCompleted = (rule) => (ruleIsCompleted(rule) === true ? true : false);
+    const isCompleted = (rule) => (ruleIsCompleted(rule, props.ruleName) === true ? true : false);
     const allRulesCompleted = props.requirements.every(isCompleted);
 
     return (
