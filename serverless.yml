@@ -9,3 +9,5 @@ inputs:
     src: ./src
     hook: npm run build
     dist: ./dist
+  environment:
+    REACT_APP_DEPLOYMENT: production

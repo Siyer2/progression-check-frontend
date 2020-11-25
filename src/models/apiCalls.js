@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const domain = process.env.REACT_APP_DEPLOYMENT === 'production' ? '' : 'http://localhost:3000';
+const domain = process.env.REACT_APP_DEPLOYMENT === 'production' ? 'https://04mipups4j.execute-api.ap-southeast-2.amazonaws.com' : 'http://localhost:3000';
 
 module.exports = {
     getProgramList: function (query) {
