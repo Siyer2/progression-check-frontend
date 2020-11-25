@@ -5,7 +5,7 @@ function NavBar(props) {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
             <a className="navbar-brand" href="/">
-                progcheck <span className="badge badge-secondary">EXPERIMENTAL</span>
+                proglak <span className="badge badge-secondary">EXPERIMENTAL</span>
             </a>
 
             <Button className="navbar-toggler" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">

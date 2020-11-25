@@ -11,3 +11,4 @@ inputs:
     dist: ./dist
   env:
     REACT_APP_DEPLOYMENT: production
+  domain: proglak.com
