@@ -48,7 +48,11 @@ function Results(props) {
 
 function NoSetProgram() {
     return (
-        <div>No program set. Please select a program to view results.</div>
+        <>
+            <div>No program set. Please select a program to view results.</div>
+
+            <div>If you've found a bug, hit the 🙁 &nbsp;on the top right.</div>
+        </>
     )
 }
 
