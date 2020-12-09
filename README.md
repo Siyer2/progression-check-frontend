@@ -1,5 +1,4 @@
-# progression-check-frontend
-Frontend for progression checker
+# Proglak frontend
 
 # To run locally:
 - npm install
