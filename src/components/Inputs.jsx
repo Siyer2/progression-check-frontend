@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { Form, Col, Button } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
 import { connect } from 'react-redux';
+import Select from 'react-select';
 
 import { getProgram, getProgramList } from '../models/apiCalls';
 import { getProgramRequirements } from '../actions/requirementsAction';
@@ -14,16 +15,8 @@ function Inputs(props) {
     const [dataList, setDataList] = useState([]);
     const [selectedProgram, setSelectedProgram] = useState('');
     const [selectedSpecialisations, setSelectedSpecialisations] = useState({});
+    const [selectedSimplifiedSpecialisations, setSelectedSimplifiedSpecialisations] = useState({});
     const [specialisationError, setSpecialisationError] = useState({});
-
-    const handleSpecialisationChange = ({ target: { value, name } }) => {
-        setSelectedSpecialisations(prevState => {
-            return { ...prevState, [name]: value };
-        });
-        setSpecialisationError(prevState => {
-            return { ...prevState, [name]: '' };
-        });
-    };
 
     async function programAdded() {
         // See if it's a valid program
@@ -49,22 +42,37 @@ function Inputs(props) {
     }
 
     async function goClicked() {
-        props.getProgramRequirements(selectedProgram.item.Item.code.S, selectedProgram.item.Item.implementation_year.S, selectedSpecialisations);
+        props.getProgramRequirements(selectedProgram.item.Item.code.S, selectedProgram.item.Item.implementation_year.S, selectedSimplifiedSpecialisations);
+    }
 
+    function handleSpecialisationChange(value, name) {
+        // Need to setSelected AND setSimplified in state because Select requires different format to props.getProgramRequirements
+        const specialisationValues = value.map((spec) => { return spec.value });
+        setSelectedSimplifiedSpecialisations(prevState => {
+            return { ...prevState, [name]: specialisationValues };
+        });
+        setSelectedSpecialisations(prevState => {
+            return { ...prevState, [name]: value };
+        });
+        setSpecialisationError(prevState => {
+            return { ...prevState, [name]: '' };
+        });
     }
 
     function SpecificSpecialisation(specialisationType, specialisationList) {
+        const options = specialisationList && specialisationList.length && specialisationList.map((spec, i) => {
+            return {
+                value: spec.S, 
+                label: spec.S
+            }
+        });
+        const placeholder = `Select ${specialisationType}`;
         return (
             <div className="form-group">
                 <Form>
                     <Form.Group controlId="exampleForm.SelectCustom">
                     <Form.Label>{specialisationType}</Form.Label>
-                        <Form.Control as="select" custom onChange={handleSpecialisationChange} value={selectedSpecialisations[specialisationType]} name={specialisationType}>
-                            <option> </option>
-                            {specialisationList && specialisationList.length && specialisationList.map((spec, i) => {
-                                return <option key={i + spec.S}> {spec.S} </option>
-                            })}
-                        </Form.Control>
+                        <Select isMulti options={options} onChange={(e) => { handleSpecialisationChange(e, specialisationType) }} value={selectedSpecialisations[specialisationType]} placeholder={placeholder}/>
                     </Form.Group>
                 </Form>
             </div>
