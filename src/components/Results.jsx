@@ -7,24 +7,38 @@ import { updateRemainingRequirements } from '../actions/requirementsAction';
 
 import fakeRequirements from '../fakeRequirements.json';
 
+// TESTING
 function Results(props) {
+    const [remainingRequirements, setRemainingRequirements] = useState(fakeRequirements);
+
+    async function addedCourse(course) {
+        const newRemainingRequirements = await getRemainingRequirements(course, props.requirements.requirements);
+        setRemainingRequirements(prevState => {
+            return { ...prevState, newRemainingRequirements }
+        });
+        props.updateRemainingRequirements(newRemainingRequirements);
+    }
+
+    return (
+        <>
+            <Outputs requirements={remainingRequirements} addedCourse={addedCourse} />
+        </>
+    )
+}
+
+/*
+// ACTUAL
+function Results(props) {
+    // ACTUAL
     const [remainingRequirements, setRemainingRequirements] = useState('');
 
     async function addedCourse(course) {
         const newRemainingRequirements = await getRemainingRequirements(course, props.requirements.requirements);
-        console.log("Remaining requirements", newRemainingRequirements);
         setRemainingRequirements(prevState => {
             return {...prevState, newRemainingRequirements}
         });
         props.updateRemainingRequirements(newRemainingRequirements);
     }
-
-    // TESTING 
-    // return (
-    //     <>
-    //         <Outputs requirements={remainingRequirements} addedCourse={addedCourse}/>
-    //     </>
-    // )
 
     // ACTUAL
     return (
@@ -45,6 +59,7 @@ function Results(props) {
         
     )
 }
+*/
 
 function NoSetProgram() {
     return (

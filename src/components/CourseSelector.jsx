@@ -68,7 +68,6 @@ function CourseSelector(props) {
     }
 
     async function courseAdded() {
-        console.log("COURSE INPUT", courseInput);
         // Get the course from the course list
         var courseFromDataList;
         if (courseList.length) {
@@ -86,9 +85,7 @@ function CourseSelector(props) {
             setCourseError(`Course not found`);
         }
         else {
-            console.log("CDL", courseFromDataList);
             const courseToAdd = courseFromDataList.Item || courseFromDataList.item.Item;
-            console.log("to add", courseToAdd);
             const newCompletedCourses = completedCourses.concat([courseToAdd]);
             setCompletedCourses(newCompletedCourses);
     
@@ -102,11 +99,20 @@ function CourseSelector(props) {
     const listOfCompletedCourses = completedCourses.length && completedCourses.map((completedCourse, i) => {
         const link = `https://www.handbook.unsw.edu.au${completedCourse.link.S}`;
         return (
-            <a style={{ textDecoration: 'none' }} href={link} target='_blank' key={completedCourse.course_code.S + i}>
-                <Button variant="secondary" block>
-                        {completedCourse.course_code.S}: {completedCourse.name.S}
-                </Button>
-            </a>
+            <Form.Row key={completedCourse.course_code.S + i}>
+                <Col>
+                    <a style={{ textDecoration: 'none' }} href={link} target='_blank'>
+                        <Button variant="secondary" block>
+                                {completedCourse.course_code.S}: {completedCourse.name.S}
+                        </Button>
+                    </a>
+                </Col>
+                <Col xs="auto">
+                    <Button className="mb-2">
+                        X
+                    </Button>
+                </Col>
+            </Form.Row>
         )
     });
 
