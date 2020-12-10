@@ -25,9 +25,7 @@ function App() {
 }
 
 const newFeatures = [
-  "Double Majors", 
-  "Delete courses", 
-  "Save courses"
+  "Double Majors"
 ]
 const popover = (
   <Popover id="popover-basic">
@@ -35,7 +33,7 @@ const popover = (
     {newFeatures.map((feature, i) => {
       return (
       <Popover.Content key={i+feature}>
-        {feature}
+        + {feature}
      </Popover.Content>)
     })}
   </Popover>
